@@ -1,3 +1,7 @@
+networks:
+  dw-network:
+    external: true
+
 services:
   postgres:
     image: postgres:latest
@@ -10,6 +14,8 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql
+    networks:
+      - dw-network
 
 volumes:
   pgdata:
