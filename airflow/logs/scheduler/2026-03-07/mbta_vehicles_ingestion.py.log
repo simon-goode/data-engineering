@@ -2020,3 +2020,10 @@
 [2026-03-07T03:06:12.299+0000] {logging_mixin.py:190} INFO - [2026-03-07T03:06:12.298+0000] {dag.py:3239} INFO - Sync 1 DAGs
 [2026-03-07T03:06:12.367+0000] {logging_mixin.py:190} INFO - [2026-03-07T03:06:12.367+0000] {dag.py:4180} INFO - Setting next_dagrun for mbta_vehicles_ingestion to 2026-03-07 03:06:00+00:00, run_after=2026-03-07 03:06:10+00:00
 [2026-03-07T03:06:12.475+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/mbta_vehicles_ingestion.py took 0.353 seconds
+[2026-03-07T03:06:42.775+0000] {processor.py:186} INFO - Started process (PID=1656) to work on /opt/airflow/dags/mbta_vehicles_ingestion.py
+[2026-03-07T03:06:42.776+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/mbta_vehicles_ingestion.py for tasks to queue
+[2026-03-07T03:06:42.778+0000] {logging_mixin.py:190} INFO - [2026-03-07T03:06:42.778+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/mbta_vehicles_ingestion.py
+[2026-03-07T03:06:41.787+0000] {processor.py:925} INFO - DAG(s) 'mbta_vehicles_ingestion' retrieved from /opt/airflow/dags/mbta_vehicles_ingestion.py
+[2026-03-07T03:06:41.829+0000] {logging_mixin.py:190} INFO - [2026-03-07T03:06:41.828+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-03-07T03:06:41.874+0000] {logging_mixin.py:190} INFO - [2026-03-07T03:06:41.874+0000] {dag.py:4180} INFO - Setting next_dagrun for mbta_vehicles_ingestion to 2026-03-07 03:06:30+00:00, run_after=2026-03-07 03:06:40+00:00
+[2026-03-07T03:06:41.907+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/mbta_vehicles_ingestion.py took 0.156 seconds
