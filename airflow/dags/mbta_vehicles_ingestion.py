@@ -8,7 +8,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 
 API_URL = os.getenv("MBTA_API_URL", "https://api-v3.mbta.com/vehicles")
-MAX_SNAPSHOTS = int(os.getenv("MBTA_MAX_SNAPSHOTS", "360"))  # 1 hour at 10s intervals
+MAX_SNAPSHOTS = int(os.getenv("MBTA_MAX_SNAPSHOTS", "300"))  # 5 minutes at 1s intervals
 
 TARGET_DB = {
     "host": os.getenv("MBTA_TARGET_DB_HOST", "postgres-1"),
@@ -138,10 +138,10 @@ default_args = {
 
 with DAG(
     dag_id="mbta_vehicles_ingestion",
-    description="Poll MBTA /vehicles every 10 seconds and load snapshots into Postgres",
+    description="Poll MBTA /vehicles every 1 second and load snapshots into Postgres",
     default_args=default_args,
     start_date=datetime(2026, 3, 1),
-    schedule=timedelta(seconds=10),
+    schedule=timedelta(seconds=1),
     catchup=False,
     max_active_runs=1,
     is_paused_upon_creation=True,
