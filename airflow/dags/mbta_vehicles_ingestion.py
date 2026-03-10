@@ -22,21 +22,15 @@ def _normalize_vehicle(vehicle: dict, ingested_at: datetime) -> tuple:
     attributes = vehicle.get("attributes", {})
     relationships = vehicle.get("relationships", {})
 
-    route_id = (
-        relationships.get("route", {})
-        .get("data", {})
-        .get("id")
-    )
-    stop_id = (
-        relationships.get("stop", {})
-        .get("data", {})
-        .get("id")
-    )
-    trip_id = (
-        relationships.get("trip", {})
-        .get("data", {})
-        .get("id")
-    )
+    # Safely extract relationship IDs, handling None values
+    route_data = relationships.get("route", {}).get("data")
+    route_id = route_data.get("id") if route_data else None
+    
+    stop_data = relationships.get("stop", {}).get("data")
+    stop_id = stop_data.get("id") if stop_data else None
+    
+    trip_data = relationships.get("trip", {}).get("data")
+    trip_id = trip_data.get("id") if trip_data else None
 
     return (
         ingested_at,
