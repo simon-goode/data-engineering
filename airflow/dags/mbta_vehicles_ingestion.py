@@ -8,6 +8,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 
 API_URL = os.getenv("MBTA_API_URL", "https://api-v3.mbta.com/vehicles")
+MAX_SNAPSHOTS = int(os.getenv("MBTA_MAX_SNAPSHOTS", "360"))  # 1 hour at 10s intervals
 
 TARGET_DB = {
     "host": os.getenv("MBTA_TARGET_DB_HOST", "postgres-1"),
@@ -107,10 +108,25 @@ def fetch_transform_load() -> None:
     ) ON CONFLICT (ingested_at, vehicle_id) DO NOTHING;
     """
 
+    purge_sql = """
+    DELETE FROM mbta.dim_vehicle_snapshots
+    WHERE ingested_at < (
+      SELECT ingested_at FROM (
+        SELECT DISTINCT ingested_at
+        FROM mbta.dim_vehicle_snapshots
+        ORDER BY ingested_at DESC
+        LIMIT %s
+      ) AS recent
+      ORDER BY ingested_at ASC
+      LIMIT 1
+    );
+    """
+
     with psycopg2.connect(**TARGET_DB) as conn:
         with conn.cursor() as cur:
             cur.execute(ddl)
             cur.executemany(insert_sql, records)
+            cur.execute(purge_sql, (MAX_SNAPSHOTS,))
 
 
 default_args = {
